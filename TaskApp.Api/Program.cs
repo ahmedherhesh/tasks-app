@@ -1,6 +1,8 @@
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TaskApp.Application;
+using TaskApp.Application.Behaviors;
 using TaskApp.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddMediatR(typeof(AssemblyReference).Assembly);
+builder.Services.AddValidatorsFromAssembly(typeof(AssemblyReference).Assembly);
+
+builder.Services.AddTransient(
+    typeof(IPipelineBehavior<,>),
+    typeof(ValidationBehavior<,>)
+);
 
 builder.Services.AddControllers();
 

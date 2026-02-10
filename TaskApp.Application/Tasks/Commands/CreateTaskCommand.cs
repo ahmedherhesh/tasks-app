@@ -3,6 +3,7 @@ using TaskApp.Infrastructure.Persistence;
 using TaskApp.Domain.Entities;
 using TaskApp.Application.Tasks.Responses;
 using TaskApp.Application.Shared.Responses;
+using FluentValidation;
 
 namespace TaskApp.Application.Tasks.Commands
 {
@@ -11,6 +12,13 @@ namespace TaskApp.Application.Tasks.Commands
         public string Title { get; set; } = null!;
     }
 
+    public class CreateTaskCommandValidator : AbstractValidator<CreateTaskCommand>
+    {
+        public CreateTaskCommandValidator()
+        {
+            RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required.");
+        }
+    }
     public class CreateTaskCommandHandler(ApplicationDbContext db) : IRequestHandler<CreateTaskCommand, Response<TaskResponse>>
     {
         private readonly ApplicationDbContext _db = db;
