@@ -11,5 +11,6 @@ namespace TaskApp.Infrastructure.Persistence
         }
 
         public DbSet<TaskItem> Tasks { get; set; }
+        public DbSet<TaskTime> TaskTimes { get; set; }
     }
 }
