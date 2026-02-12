@@ -1,6 +1,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TaskApp.Api.Middlewares;
 using TaskApp.Application;
 using TaskApp.Application.Behaviors;
 using TaskApp.Infrastructure.Persistence;
@@ -40,6 +41,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.MapControllers();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 // app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 
 app.Run();
