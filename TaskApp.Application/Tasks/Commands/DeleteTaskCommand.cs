@@ -14,14 +14,12 @@ namespace TaskApp.Application.Tasks.Commands
 
     public class DeleteTaskCommandHandler(ApplicationDbContext db) : IRequestHandler<DeleteTaskCommand, Response<bool>>
     {
-        private readonly ApplicationDbContext _db = db;
-
 
         public async Task<Response<bool>> Handle(DeleteTaskCommand request, CancellationToken cancellationToken)
         {
-            var task = await _db.Tasks.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken) ?? throw new KeyNotFoundException($"Task with Id {request.Id} not found");
-            _db.Tasks.Remove(task);
-            await _db.SaveChangesAsync(cancellationToken);
+            var task = await db.Tasks.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken) ?? throw new KeyNotFoundException($"Task with Id {request.Id} not found");
+            db.Tasks.Remove(task);
+            await db.SaveChangesAsync(cancellationToken);
 
             return new Response<bool>(true);
         }

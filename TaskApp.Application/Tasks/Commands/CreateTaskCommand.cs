@@ -21,14 +21,11 @@ namespace TaskApp.Application.Tasks.Commands
     }
     public class CreateTaskCommandHandler(ApplicationDbContext db) : IRequestHandler<CreateTaskCommand, Response<TaskResponse>>
     {
-        private readonly ApplicationDbContext _db = db;
-
-
         public async Task<Response<TaskResponse>> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
         {
             var task = new TaskItem { Title = request.Title };
-            _db.Tasks.Add(task);
-            await _db.SaveChangesAsync(cancellationToken);
+            db.Tasks.Add(task);
+            await db.SaveChangesAsync(cancellationToken);
 
             return new Response<TaskResponse>(task.ToResponse());
         }

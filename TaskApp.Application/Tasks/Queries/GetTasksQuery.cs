@@ -14,11 +14,9 @@ namespace TaskApp.Application.Tasks.Queries
 
     public class GetTasksHandler(ApplicationDbContext db) : IRequestHandler<GetTasksQuery, Response<List<TaskResponse>>>
     {
-        private readonly ApplicationDbContext _db = db;
-
         public async Task<Response<List<TaskResponse>>> Handle(GetTasksQuery query, CancellationToken cancellationToken)
         {
-            var tasks = await _db.Tasks
+            var tasks = await db.Tasks
                 .When(!string.IsNullOrWhiteSpace(query.TextSearch), (q) => q.Where(t => t.Title.Contains(query.TextSearch)))
                 .Select(task => task.ToResponse())
                 .ToListAsync(cancellationToken);

@@ -7,43 +7,36 @@ using TaskApp.Application.Tasks.Responses;
 namespace TaskApp.Api.Controllers;
 
 [ApiController]
-[Route("api/tasks")]
+[Route("api/[controller]")]
 public class TasksController(IMediator mediator) : ControllerBase
 {
-    private readonly IMediator _mediator = mediator;
-
     [HttpGet("")]
     public async Task<ActionResult<List<TaskResponse>>> GetTasks([FromQuery] GetTasksQuery query)
     {
-        var result = await _mediator.Send(query);
-        return Ok(result);
+        return Ok(await mediator.Send(query));
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<TaskResponse>> GetTask(Guid id)
     {
-        var result = await _mediator.Send(new GetTaskQuery { Id = id });
-        return Ok(result);
+        return Ok(await mediator.Send(new GetTaskQuery { Id = id }));
     }
 
     [HttpPost("")]
     public async Task<ActionResult<TaskResponse>> CreateTask([FromBody] CreateTaskCommand command)
     {
-        var result = await _mediator.Send(command);
-        return Ok(result);
+        return Ok(await mediator.Send(command));
     }
 
     [HttpPut("")]
     public async Task<ActionResult<TaskResponse>> UpdateTask([FromBody] UpdateTaskCommand command)
     {
-        var result = await _mediator.Send(command);
-        return Ok(result);
+        return Ok( await mediator.Send(command));
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult<bool>> DeleteTask(Guid id)
     {
-        var result = await _mediator.Send(new DeleteTaskCommand { Id = id });
-        return Ok(result);
+        return Ok(await mediator.Send(new DeleteTaskCommand { Id = id }));
     }
 }
