@@ -11,7 +11,8 @@ namespace TaskApp.Domain.Entities
         public Guid TaskItemId { get; set; }
         public DateTime Start { get; set; }
         public DateTime? End { get; set; }
-        public TimeSpan? Duration => End.HasValue ? End - Start : null;
+        public TimeSpan? Duration => (End ?? DateTime.UtcNow) - Start;
         public string? Notes { get; set; }
+        public TaskItem? TaskItem { get; set; }
     }
 }

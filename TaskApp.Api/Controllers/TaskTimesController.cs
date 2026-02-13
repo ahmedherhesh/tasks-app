@@ -24,8 +24,8 @@ namespace TaskApp.Api.Controllers
             return Ok(await mediator.Send(new GetTaskTimeQuery { Id = id }));
         }
 
-        [HttpPost("")]
-        public async Task<ActionResult<Response<TaskTimeDetailsResponse>>> CreateTaskTime([FromBody] CreateTaskTimeCommand command)
+        [HttpPost("Start")]
+        public async Task<ActionResult<Response<TaskTimeDetailsResponse>>> StartTaskTime([FromBody] StartTaskTimeCommand command)
         {
             return Ok(await mediator.Send(command));
         }
