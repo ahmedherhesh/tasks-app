@@ -36,9 +36,9 @@ namespace TaskApp.Application.Tasks.Commands
             var task = await db.Tasks.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken) ?? throw new KeyNotFoundException($"Task with Id {request.Id} not found");
             task.Status = request.Status;
 
-            if(request.Status == TaskItemStatus.Completed) 
+            if (request.Status == TaskItemStatus.Completed)
             {
-                var taskTimes = await db.TaskTimes.Where(t => t.TaskItemId == request.Id).ToListAsync(cancellationToken);
+                var taskTimes = await db.TaskTimes.Where(t => t.TaskItemId == request.Id && t.End == null).ToListAsync(cancellationToken);
                 foreach (var taskTime in taskTimes)
                 {
                     taskTime.End = DateTime.UtcNow;
