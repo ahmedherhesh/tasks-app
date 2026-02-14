@@ -1,4 +1,5 @@
 using TaskApp.Domain.Entities;
+using TaskApp.Domain.Enums;
 
 namespace TaskApp.Application.Tasks.Responses
 {
@@ -6,7 +7,7 @@ namespace TaskApp.Application.Tasks.Responses
     {
         public Guid Id { get; set; }
         public string? Title { get; set; }
-        public bool IsCompleted { get; set; }
+        public TaskItemStatus Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
@@ -19,7 +20,7 @@ namespace TaskApp.Application.Tasks.Responses
             {
                 Id = task.Id,
                 Title = task.Title,
-                IsCompleted = task.IsCompleted,
+                Status = task.Status,
                 CreatedAt = task.CreatedAt,
                 UpdatedAt = task.UpdatedAt
             };

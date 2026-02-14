@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskApp.Application.Shared.Responses;
 using TaskApp.Application.TaskTimes.Responses;
 using TaskApp.Domain.Entities;
+using TaskApp.Domain.Enums;
 using TaskApp.Infrastructure.Persistence;
 
 namespace TaskApp.Application.TaskTimes.Commands
@@ -25,13 +26,13 @@ namespace TaskApp.Application.TaskTimes.Commands
     {
         public async Task<Response<TaskTimeDetailsResponse>> Handle(StartTaskTimeCommand request, CancellationToken cancellationToken)
         {
-            var taskExists = await db.Tasks.AnyAsync(t => t.Id == request.TaskId, cancellationToken);
-            if (!taskExists)
-                throw new KeyNotFoundException($"Task with Id {request.TaskId} not found");
+            var task = await db.Tasks.FirstOrDefaultAsync(t => t.Id == request.TaskId, cancellationToken) ?? throw new KeyNotFoundException($"Task with Id {request.TaskId} not found");
 
             var runningTaskTime = await db.TaskTimes.AnyAsync(t => t.TaskItemId == request.TaskId && t.End == null, cancellationToken);
 
             if (runningTaskTime) throw new Exception("There is already a running task time");
+
+            task.Status = TaskItemStatus.InProgress;
 
             var taskTime = new TaskTime { TaskItemId = request.TaskId, Start = DateTime.UtcNow };
             await db.TaskTimes.AddAsync(taskTime, cancellationToken);
