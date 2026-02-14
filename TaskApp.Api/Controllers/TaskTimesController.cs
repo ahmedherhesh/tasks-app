@@ -29,5 +29,11 @@ namespace TaskApp.Api.Controllers
         {
             return Ok(await mediator.Send(command));
         }
+
+        [HttpPut("End")]
+        public async Task<ActionResult<Response<TaskTimeDetailsResponse>>> EndTaskTime([FromBody] EndTaskTimeCommand command)
+        {
+            return Ok(await mediator.Send(command));
+        }
     }
 }

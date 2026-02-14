@@ -29,7 +29,7 @@ namespace TaskApp.Application.TaskTimes.Commands
             if (!taskExists)
                 throw new KeyNotFoundException($"Task with Id {request.TaskId} not found");
 
-            var runningTaskTime = await db.TaskTimes.AnyAsync(t => t.TaskItemId == request.TaskId, cancellationToken);
+            var runningTaskTime = await db.TaskTimes.AnyAsync(t => t.TaskItemId == request.TaskId && t.End == null, cancellationToken);
 
             if (runningTaskTime) throw new Exception("There is already a running task time");
 
