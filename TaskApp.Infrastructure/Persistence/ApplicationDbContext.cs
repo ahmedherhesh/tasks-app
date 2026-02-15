@@ -10,6 +10,17 @@ namespace TaskApp.Infrastructure.Persistence
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Project>(entity =>
+            {
+                entity.Property(x => x.Description).HasColumnType("nvarchar(max)");
+            });
+        }
+
+        public DbSet<Project> Projects { get; set; }
         public DbSet<TaskItem> Tasks { get; set; }
         public DbSet<TaskTime> TaskTimes { get; set; }
     }

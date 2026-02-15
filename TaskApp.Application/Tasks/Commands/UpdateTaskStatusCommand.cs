@@ -38,12 +38,10 @@ namespace TaskApp.Application.Tasks.Commands
 
             if (request.Status == TaskItemStatus.Completed)
             {
-                var taskTimes = await db.TaskTimes.Where(t => t.TaskItemId == request.Id && t.End == null).ToListAsync(cancellationToken);
-                foreach (var taskTime in taskTimes)
-                {
-                    taskTime.End = DateTime.UtcNow;
-                }
+                await db.TaskTimes.Where(t => t.TaskItemId == request.Id && t.End == null)
+                .ExecuteUpdateAsync(t => t.SetProperty(t => t.End, DateTime.UtcNow), cancellationToken);
             }
+            
             await db.SaveChangesAsync(cancellationToken);
 
             return new Response<bool>(true, message: "Task status updated successfully");
