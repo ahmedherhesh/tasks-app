@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskApp.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using TaskApp.Infrastructure.Persistence;
 namespace TaskApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260215185629_ProjectTable")]
+    partial class ProjectTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,9 +31,6 @@ namespace TaskApp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -38,9 +38,6 @@ namespace TaskApp.Infrastructure.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -104,7 +101,7 @@ namespace TaskApp.Infrastructure.Migrations
             modelBuilder.Entity("TaskApp.Domain.Entities.TaskItem", b =>
                 {
                     b.HasOne("TaskApp.Domain.Entities.Project", "Project")
-                        .WithMany("Tasks")
+                        .WithMany("TaskItems")
                         .HasForeignKey("ProjectId");
 
                     b.Navigation("Project");
@@ -123,7 +120,7 @@ namespace TaskApp.Infrastructure.Migrations
 
             modelBuilder.Entity("TaskApp.Domain.Entities.Project", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.Navigation("TaskItems");
                 });
 
             modelBuilder.Entity("TaskApp.Domain.Entities.TaskItem", b =>

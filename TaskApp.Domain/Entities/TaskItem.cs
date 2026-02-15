@@ -10,5 +10,6 @@ public class TaskItem
     public bool IsCompleted => Status == TaskItemStatus.Completed;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+    public Project? Project { get; set; }
     public List<TaskTime> TaskTimes { get; set; } = [];
 }
