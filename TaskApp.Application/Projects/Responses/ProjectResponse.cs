@@ -1,18 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TaskApp.Domain.Entities;
 
 namespace TaskApp.Application.Projects.Responses
 {
     public class ProjectResponse
     {
-        public Guid Id;
-        public string Title = string.Empty;
-        public string Description = string.Empty;
-        public DateTime CreatedAt;
-        public DateTime UpdatedAt;
+        public Guid Id {get; set;}
+        public string Title {get; set;}
+        public string Description {get; set;}
+        public DateTime CreatedAt {get; set;}
+        public DateTime UpdatedAt {get; set;}
 
     }
 
