@@ -20,6 +20,12 @@ namespace TaskApp.Infrastructure.Persistence
             {
                 entity.Property(x => x.Description).HasColumnType("nvarchar(max)");
             });
+
+            modelBuilder.Entity<TaskTime>()
+                .HasOne<ApplicationUser>()
+                .WithMany(u => u.TaskTimes)
+                .HasForeignKey(tt => tt.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Project> Projects { get; set; }

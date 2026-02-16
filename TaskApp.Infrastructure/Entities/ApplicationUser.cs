@@ -10,5 +10,6 @@ namespace TaskApp.Infrastructure.Entities
         public string LastName { get; set; } = string.Empty;
         public UserType UserType { get; set; } = UserType.User;
         public virtual ICollection<Project> Projects { get; set; } = [];
+        public virtual ICollection<TaskTime> TaskTimes { get; set; } = [];
     }
 }

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace TaskApp.Domain.Entities
 {
     public class TaskTime
@@ -13,6 +8,7 @@ namespace TaskApp.Domain.Entities
         public DateTime? End { get; set; }
         public TimeSpan? Duration => (End ?? DateTime.UtcNow) - Start;
         public string? Notes { get; set; }
+        public string? UserId { get; set; }
         public TaskItem? TaskItem { get; set; }
     }
 }
