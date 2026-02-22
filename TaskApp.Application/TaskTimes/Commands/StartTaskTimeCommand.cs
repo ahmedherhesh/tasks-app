@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ namespace TaskApp.Application.TaskTimes.Commands
 {
     public class StartTaskTimeCommand : IRequest<Response<TaskTimeDetailsResponse>>
     {
+        [JsonIgnore]
+        public Guid UserId { get; set; }
         public Guid TaskId { get; set; }
     }
 
@@ -18,6 +21,7 @@ namespace TaskApp.Application.TaskTimes.Commands
     {
         public StartTaskTimeCommandValidator()
         {
+            RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId is required");
             RuleFor(x => x.TaskId).NotEmpty().WithMessage("TaskId is required");
         }
     }
@@ -36,7 +40,7 @@ namespace TaskApp.Application.TaskTimes.Commands
 
             task.Status = TaskItemStatus.InProgress;
 
-            var taskTime = new TaskTime { TaskItemId = request.TaskId, Start = DateTime.UtcNow };
+            var taskTime = new TaskTime { CreatedById = request.UserId, TaskItemId = request.TaskId, Start = DateTime.UtcNow };
             await db.TaskTimes.AddAsync(taskTime, cancellationToken);
 
             await db.SaveChangesAsync(cancellationToken);

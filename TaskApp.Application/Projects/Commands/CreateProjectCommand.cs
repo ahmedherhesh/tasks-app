@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FluentValidation;
 using MediatR;
 using TaskApp.Application.Projects.Responses;
@@ -9,6 +10,8 @@ namespace TaskApp.Application.Projects.Commands
 {
     public class CreateProjectCommand : IRequest<Response<ProjectResponse>>
     {
+        [JsonIgnore]
+        public Guid UserId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
     }
@@ -17,6 +20,7 @@ namespace TaskApp.Application.Projects.Commands
     {
         public CreateProjectCommandValidator()
         {
+            RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId is required.");
             RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required.");
             RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required.").MaximumLength(2000);
         }
@@ -26,7 +30,7 @@ namespace TaskApp.Application.Projects.Commands
     {
         public async Task<Response<ProjectResponse>> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
-            var project = new Project { Title = request.Title, Description = request.Description };
+            var project = new Project { CreatedById = request.UserId, Title = request.Title, Description = request.Description };
             db.Projects.Add(project);
             await db.SaveChangesAsync(cancellationToken);
             return new Response<ProjectResponse>(project.ToResponse());

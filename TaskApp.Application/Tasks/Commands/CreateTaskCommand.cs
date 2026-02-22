@@ -5,11 +5,14 @@ using TaskApp.Application.Tasks.Responses;
 using TaskApp.Application.Shared.Responses;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace TaskApp.Application.Tasks.Commands
 {
     public class CreateTaskCommand() : IRequest<Response<TaskResponse>>
     {
+        [JsonIgnore]
+        public Guid UserId { get; set; }
         public Guid ProjectId { get; set; }
         public string Title { get; set; } = null!;
     }
@@ -18,6 +21,7 @@ namespace TaskApp.Application.Tasks.Commands
     {
         public CreateTaskCommandValidator()
         {
+            RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId is required.");
             RuleFor(x => x.ProjectId).NotEmpty().WithMessage("Project id is required.");
             RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required.");
         }
@@ -28,7 +32,7 @@ namespace TaskApp.Application.Tasks.Commands
         {
             var project = await db.Projects.FirstOrDefaultAsync(p => p.Id == request.ProjectId, cancellationToken) ?? throw new KeyNotFoundException($"Project with Id {request.ProjectId} not found");
 
-            var task = new TaskItem { Title = request.Title };
+            var task = new TaskItem { CreatedById = request.UserId, Title = request.Title };
             project.Tasks.Add(task);
             await db.SaveChangesAsync(cancellationToken);
 
