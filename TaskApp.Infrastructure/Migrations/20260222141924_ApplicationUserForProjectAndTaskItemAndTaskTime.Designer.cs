@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskApp.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using TaskApp.Infrastructure.Persistence;
 namespace TaskApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260222141924_ApplicationUserForProjectAndTaskItemAndTaskTime")]
+    partial class ApplicationUserForProjectAndTaskItemAndTaskTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -388,7 +391,7 @@ namespace TaskApp.Infrastructure.Migrations
             modelBuilder.Entity("TaskApp.Domain.Entities.TaskItem", b =>
                 {
                     b.HasOne("TaskApp.Domain.Entities.ApplicationUser", "CreatedBy")
-                        .WithMany("Tasks")
+                        .WithMany()
                         .HasForeignKey("CreatedById");
 
                     b.HasOne("TaskApp.Domain.Entities.Project", "Project")
@@ -422,8 +425,6 @@ namespace TaskApp.Infrastructure.Migrations
                     b.Navigation("Projects");
 
                     b.Navigation("TaskTimes");
-
-                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("TaskApp.Domain.Entities.Project", b =>

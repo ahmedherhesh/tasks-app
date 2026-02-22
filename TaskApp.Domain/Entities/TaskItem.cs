@@ -8,8 +8,9 @@ public class TaskItem
     public string Title { get; set; } = string.Empty;
     public TaskItemStatus Status { get; set; } = TaskItemStatus.Pending;
     public bool IsCompleted => Status == TaskItemStatus.Completed;
+    public Project? Project { get; set; }
+    public ApplicationUser CreatedBy { get; set; } = null!;
+    public List<TaskTime> TaskTimes { get; set; } = [];
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
-    public Project? Project { get; set; }
-    public List<TaskTime> TaskTimes { get; set; } = [];
 }

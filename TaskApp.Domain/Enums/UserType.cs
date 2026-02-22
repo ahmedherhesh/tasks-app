@@ -1,4 +1,4 @@
-namespace TaskApp.Infrastructure.Enums
+namespace TaskApp.Domain.Enums
 {
     public enum UserType
     {

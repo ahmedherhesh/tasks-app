@@ -11,7 +11,6 @@ namespace TaskApp.Application.Tasks.Commands
     {
         public Guid Id { get; set; }
         public string? Title { get; set; }
-        public bool? IsCompleted { get; set; }
     }
 
     public class UpdateTaskHandler(ApplicationDbContext db) : IRequestHandler<UpdateTaskCommand, Response<TaskResponse>>

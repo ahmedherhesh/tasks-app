@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Identity;
-using TaskApp.Domain.Entities;
-using TaskApp.Infrastructure.Enums;
+using TaskApp.Domain.Enums;
 
-namespace TaskApp.Infrastructure.Entities
+namespace TaskApp.Domain.Entities
 {
     public class ApplicationUser : IdentityUser
     {
@@ -10,6 +9,7 @@ namespace TaskApp.Infrastructure.Entities
         public string LastName { get; set; } = string.Empty;
         public UserType UserType { get; set; } = UserType.User;
         public virtual ICollection<Project> Projects { get; set; } = [];
+        public virtual ICollection<TaskItem> Tasks { get; set; } = [];
         public virtual ICollection<TaskTime> TaskTimes { get; set; } = [];
     }
 }
