@@ -1,6 +1,6 @@
-namespace TaskApp.Infrastructure.Authentication
+namespace TaskApp.Infrastructure.Authentication.Options
 {
-    public class Jwt
+    public class JwtOptions
     {
         public string Issuer { get; set; } = default!;
         public string Audience { get; set; } = default!;

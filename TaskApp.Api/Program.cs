@@ -2,18 +2,19 @@ using System.Text;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TaskApp.Api.Middlewares;
 using TaskApp.Application;
 using TaskApp.Application.Behaviors;
-using TaskApp.Infrastructure.Authentication;
+using TaskApp.Domain.Entities;
+using TaskApp.Infrastructure.Authentication.Options;
 using TaskApp.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-var jwtConfig = builder.Configuration.GetSection("Jwt").Get<Jwt>();
+var jwtConfig = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -38,6 +39,9 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
