@@ -11,6 +11,7 @@ namespace TaskApp.Infrastructure.Authentication.Commands
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
     }
@@ -21,6 +22,7 @@ namespace TaskApp.Infrastructure.Authentication.Commands
         {
             RuleFor(x => x.FirstName).NotEmpty().WithMessage("First name is required.");
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Last name is required.");
+            RuleFor(x => x.UserName).NotEmpty().WithMessage("User name is required.");
             RuleFor(x => x.Email).EmailAddress().NotEmpty().WithMessage("Email is required.");
             RuleFor(x => x.Password).MinimumLength(6).WithMessage("Password must be at least 6 characters long.").NotEmpty().WithMessage("Password is required.");
         }
@@ -30,7 +32,14 @@ namespace TaskApp.Infrastructure.Authentication.Commands
     {
         public async Task<Response<RegisterResponse>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            var user = new ApplicationUser { FirstName = request.FirstName, LastName = request.LastName, Email = request.Email, UserName = request.Email, EmailConfirmed = true };
+            var user = new ApplicationUser
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                UserName = request.UserName,
+                EmailConfirmed = true
+            };
             var newUser = await userManager.CreateAsync(user, request.Password);
             if (!newUser.Succeeded)
                 throw new Exception(newUser.Errors.FirstOrDefault()?.Description);
