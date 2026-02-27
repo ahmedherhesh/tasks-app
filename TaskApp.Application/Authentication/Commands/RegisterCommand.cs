@@ -5,7 +5,7 @@ using TaskApp.Application.Authentication.Responses;
 using TaskApp.Application.Shared.Responses;
 using TaskApp.Domain.Entities;
 
-namespace TaskApp.Infrastructure.Authentication.Commands
+namespace TaskApp.Application.Authentication.Commands
 {
     public class RegisterCommand : IRequest<Response<RegisterResponse>>
     {

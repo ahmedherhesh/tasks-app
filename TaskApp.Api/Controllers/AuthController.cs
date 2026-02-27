@@ -1,9 +1,9 @@
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TaskApp.Application.Authentication.Commands;
 using TaskApp.Application.Authentication.Responses;
 using TaskApp.Application.Shared.Responses;
-using TaskApp.Infrastructure.Authentication.Commands;
 
 namespace TaskApp.Api.Controllers
 {
