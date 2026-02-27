@@ -30,11 +30,10 @@ namespace TaskApp.Infrastructure.Authentication.Commands
     {
         public async Task<Response<RegisterResponse>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            var isUserExist = userManager.Users.Any(x => x.Email == request.Email);
-            if (isUserExist) throw new Exception("User already exists.");
-
             var user = new ApplicationUser { FirstName = request.FirstName, LastName = request.LastName, Email = request.Email, UserName = request.Email, EmailConfirmed = true };
             var newUser = await userManager.CreateAsync(user, request.Password);
+            if (!newUser.Succeeded)
+                throw new Exception(newUser.Errors.FirstOrDefault()?.Description);
             return new Response<RegisterResponse>(user.ToResponse());
         }
     }
